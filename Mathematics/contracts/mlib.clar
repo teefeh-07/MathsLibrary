@@ -100,14 +100,15 @@
           (ok 0)  ;; 0^n = 0 for n > 0
           (if (is-eq exponent u1)
               (ok base)  ;; n^1 = n
-              (power-helper base exponent base u1)))))
-
-(define-private (power-helper (base int) (exponent uint) (result int) (current-exp uint))
-  (if (>= current-exp exponent)
-      (ok result)
-      (match (multiply result base)
-        new-result (power-helper base exponent new-result (+ current-exp u1))
-        error error)))
+              (let ((half-exp (/ exponent u2))
+                    (odd (is-eq (mod exponent u2) u1)))
+                (match (power base half-exp)
+                  half-result (match (multiply half-result half-result)
+                                squared (if odd
+                                           (multiply squared base)
+                                           (ok squared))
+                                error error)
+                  error error))))))
 
 ;; Integer square root approximation 
 ;; Returns the largest integer r such that r*r <= n
