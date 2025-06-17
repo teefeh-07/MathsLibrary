@@ -124,7 +124,7 @@
 ;; Helper function for isqrt using Newton's method
 (define-private (isqrt-iter (x uint) (y uint) (n uint))
   (if (< x y)
-      (isqrt-iter y (+ (/ n y) y u1 u2) n)
+      (isqrt-iter y (/ (+ (/ n y) y) u2) n)
       x))
 
 ;; Modular Function (renamed to avoid conflict with built-in 'mod' function)
@@ -228,7 +228,7 @@
 ;; @param a (int) - Input value
 ;; @returns (bool) - True if the value is odd, false otherwise
 (define-read-only (is-odd (a int))
-  (is-eq (mod a 2) 1))
+  (not (is-eq (mod a 2) 0)))
 
 ;; Is Positive Function
 ;; @param a (int) - Input value
@@ -256,7 +256,7 @@
 ;; Convert int to uint if possible
 ;; @param a (int) - Input integer
 ;; @returns (response uint string) - Returns uint or error message
-(define-read-only (to-uint (a int))
+(define-read-only (int-to-uint (a int))
   (if (< a 0)
       (err ERR-DOMAIN-ERROR)
       (ok (to-uint a))))
@@ -276,21 +276,21 @@
 ;; @param a (uint) - First operand
 ;; @param b (uint) - Second operand
 ;; @returns (uint) - Result of bitwise AND
-(define-read-only (bit-and (a uint) (b uint))
+(define-read-only (bitwise-and (a uint) (b uint))
   (bit-and a b))
 
 ;; Bitwise OR operation
 ;; @param a (uint) - First operand
 ;; @param b (uint) - Second operand
 ;; @returns (uint) - Result of bitwise OR
-(define-read-only (bit-or (a uint) (b uint))
+(define-read-only (bitwise-or (a uint) (b uint))
   (bit-or a b))
 
 ;; Bitwise XOR operation
 ;; @param a (uint) - First operand
 ;; @param b (uint) - Second operand
 ;; @returns (uint) - Result of bitwise XOR
-(define-read-only (bit-xor (a uint) (b uint))
+(define-read-only (bitwise-xor (a uint) (b uint))
   (bit-xor a b))
 
 ;; Left shift operation
